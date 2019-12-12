@@ -82,7 +82,7 @@ And https://github.com/pacuna/rails5-docker-alpine
 
 - Run `docker-compose up` to run the app. Access `localhost:3000` on your browser. **You should see an error** about not being able to connect to the database.
 
-- Modify the `config/database.yml` created by rails. Change it to match the configurations below. Pay attention that the `test` key will change from inheriting from `default` to inherit from `development`:
+- Modify the `config/database.yml` created by `rails new`. Change it to match the configurations below. Pay attention that the `test` key will change from inheriting from `default` to inherit from `development`:
   ```yml
   default: &default
     adapter: postgresql
