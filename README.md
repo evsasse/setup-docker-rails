@@ -13,6 +13,8 @@ And https://github.com/pacuna/rails5-docker-alpine
 - Run `rails new` inside the container, writing the Rails scaffold to our local folder.
 - Increment the Dockerfile, and run it again to actually build the Rails dependencies into the container.
 - Rerun the container to actually run the application.
+- Configure the database connection.
+- Finally rerun the application to have it working.
 
 ## Step-by-step:
 
@@ -24,7 +26,9 @@ And https://github.com/pacuna/rails5-docker-alpine
 
   gem 'rails', '~> 6.0.1'
   ```
+  
 - Create an empty `Gemfile.lock`.
+
 - Create a minimal `Dockerfile`:
   ```Dockerfile
   FROM ruby:2.6.5-alpine3.10
@@ -36,7 +40,8 @@ And https://github.com/pacuna/rails5-docker-alpine
     git \
     postgresql-dev \
     nodejs \
-    tzdata
+    tzdata \
+    yarn
 
   RUN mkdir /home/deploy
   WORKDIR /home/deploy
@@ -44,7 +49,12 @@ And https://github.com/pacuna/rails5-docker-alpine
   COPY ./Gemfile ./Gemfile.lock ./
 
   RUN bundle install --jobs 3 --retry 3
+
+  COPY . .
+
+  EXPOSE 3000
   ```
+  
 - Create the `docker-compose.yml`:
   ```yml
   version: '3'
@@ -61,6 +71,42 @@ And https://github.com/pacuna/rails5-docker-alpine
       depends_on:
         - db
   ```
-- Run `docker-compose run web rails new . --database=postgresql --webpacker --webpack=react --no-deps`
+  
+- Run `docker-compose run web rails new . --database=postgresql --webpacker --webpack=react --skip-bundle --force`
   - This shall build the container image using our `Dockerfile`, and run `rails new` inside it.
     But as we setted up a volume inside our `docker-compose.yml`, we shall get the Rails scaffold put into the our folder.
+  - Attention to `--skip-bundle`, as we are not writing these changes to the container image, it doesnt make sense to install the dependencies yet
+  
+- Run `docker-compose build` to rebuild the container image.
+  Now the `bundle install` that we have on the `Dockerfile` will install the dependencies written by `rails new` into the container image.
+
+- Run `docker-compose up` to run the app. Access `localhost:3000` on your browser. **You should see an error** about not being able to connect to the database.
+
+- Modify the `config/database.yml` created by rails. Change it to match the configurations below. Pay attention that the `test` key will change from inheriting from `default` to inherit from `development`:
+  ```yml
+  default: &default
+    adapter: postgresql
+    encoding: unicode
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+  development: &development
+    <<: *default
+    database: deploy_development
+    username: postgres
+    password:
+    host: db
+
+  test:
+    <<: *development
+    database: deploy_test
+
+  production:
+    <<: *default
+    database: deploy_production
+    username: deploy
+    password: <%= ENV['DEPLOY_DATABASE_PASSWORD'] %>
+  ```
+
+- Run the migrations, to create the database `docker-compose run web rails db:create`. We have a volume configured for the postgres container, so the data will be stored between executions. 
+
+- Run the application again, `docker-compose up`.
