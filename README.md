@@ -110,3 +110,7 @@ And https://github.com/pacuna/rails5-docker-alpine
 - Run the migrations, to create the database `docker-compose run web rails db:create`. We have a volume configured for the postgres container, so the data will be stored between executions. 
 
 - Run the application again, `docker-compose up`. **Yay! You’re on Rails!**
+
+- Later on, you can execute other things using the dependencies inside the container by running `docker-compose run web ...`
+  
+  - Eg. `docker-compose run web yarn add bootstrap jquery popper.js`
