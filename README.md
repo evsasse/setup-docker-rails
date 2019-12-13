@@ -77,7 +77,7 @@ And https://github.com/pacuna/rails5-docker-alpine
         - db
   ```
   
-- Run `docker-compose run web rails new . --database=postgresql --webpacker --webpack=react --skip-bundle --force`
+- Run `docker-compose run web rails new . --database=postgresql --webpacker --webpack=react --skip-bundle --skip --no-skip-gemfile`
   - This shall build the container image using our `Dockerfile`, and run `rails new` inside it.
     But as we setted up a volume inside our `docker-compose.yml`, we shall get the Rails scaffold put into the our folder.
   - Attention to `--skip-bundle`, as we are not writing these changes to the container image, it doesnt make sense to install the dependencies yet.
