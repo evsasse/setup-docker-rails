@@ -71,6 +71,8 @@ And https://github.com/pacuna/rails5-docker-alpine
         - .:/home/deploy
       ports:
         - "3000:3000"
+      expose:
+        - "3000"
       depends_on:
         - db
   ```
