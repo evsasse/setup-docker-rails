@@ -60,10 +60,10 @@ And https://github.com/pacuna/rails5-docker-alpine
   services:
     db:
       image: postgres:12.1-alpine
-    expose:
-      - "5432"
-    volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      expose:
+        - "5432"
+      volumes:
+        - ./tmp/db:/var/lib/postgresql/data
     web:
       build: .
       command: rails s -p 3000 -b '0.0.0.0'
