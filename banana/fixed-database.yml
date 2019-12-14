@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development: &development
+  <<: *default
+  database: banana_development
+  username: postgres
+  password:
+  host: db
+  port: 5432
+
+test:
+  <<: *development
+  database: banana_test
+
+production:
+  <<: *default
+  database: banana_production
+  username: banana
+  password: <%= ENV['BANANA_DATABASE_PASSWORD'] %>
