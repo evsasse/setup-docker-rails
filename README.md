@@ -40,7 +40,7 @@ And https://github.com/pacuna/rails5-docker-alpine
 
 - Later on, you may want to add Ruby or JS dependencies.
   You should not need to rebuild the container image to do so, in development.
-  - Just `docker-compose run web bundle add devise`, and `docker-compose run web yarn add devise`;
+  - Just `docker-compose run web bundle add devise`, and `docker-compose run web yarn add jquery`;
   - Or `docker-compose run web bundle install`, and `docker-compose run web yarn install`, as needed.
 
 - Similarly, you may want to run some migrations.
