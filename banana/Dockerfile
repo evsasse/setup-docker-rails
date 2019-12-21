@@ -18,8 +18,10 @@ COPY ./Gemfile ./Gemfile.lock ./
 
 RUN bundle install --jobs 3 --retry 3
 
+# ENV YARN_CACHE_FOLDER /yarn
+# RUN mkdir -p $YARN_CACHE_FOLDER && yarn config set cache-folder $YARN_CACHE_FOLDER
 COPY ./package.json ./yarn.lock ./
-
 RUN yarn install && yarn cache clean
+# RUN yarn install
 
 COPY . .
