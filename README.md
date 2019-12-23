@@ -52,6 +52,7 @@
 
 - To be able to interact with `binding.pry`, attach a interactive session to the running Rails server.
   - `bin/pry` does just that.
+  - Consider also changing `config/puma.rb` to just 1 thread on development.
 
 ## Details:
 For debugging, and studying.
