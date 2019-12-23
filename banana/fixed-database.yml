@@ -8,7 +8,7 @@ development: &development
   database: banana_development
   username: postgres
   password:
-  host: db
+  host: postgres
   port: 5432
 
 test:
