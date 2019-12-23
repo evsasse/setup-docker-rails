@@ -22,8 +22,7 @@ services:
       - webpack
   webpack:
     build: .
-    command: bash -c "yarn install ; bin/webpack-dev-server"
-    command: bin/webpack-dev-server
+    command: bash -c "test -f bin/webpack-dev-server && yarn install && bin/webpack-dev-server"
     volumes:
       - .:/home/banana
       - node_modules:/home/banana/node_modules

@@ -21,7 +21,7 @@ And https://github.com/pacuna/rails5-docker-alpine
   - `find . -type f -exec sed -i '' 's/banana/my-new-orange-project/g;s/BANANA/MY_NEW_ORANGE_PROJECT/g' {} +`.
 
 - Build the container image, and create a new Rails project from inside it.
-  - `docker-compose run web rails new . --database=postgresql --webpacker --webpack=react --skip-git --force`.
+  - `docker-compose run rails rails new . --database=postgresql --webpacker --webpack=react --skip-git --force`.
 
 - Replace your `config/database.yml` with one that will reach into the Postgres container.
   - `mv fixed-database.yml config/database.yml`.
@@ -43,11 +43,11 @@ And https://github.com/pacuna/rails5-docker-alpine
 
 - Later on, you may want to add Ruby or JS dependencies.
   You should not need to rebuild the container image to do so, in development.
-  - Just `docker-compose run web bundle add devise`, and `docker-compose run web yarn add jquery`;
-  - Or `docker-compose run web bundle install`, and `docker-compose run web yarn install`, as needed.
+  - Just `docker-compose run rails bundle add devise`, and `docker-compose run rails yarn add jquery`;
+  - Or `docker-compose run rails bundle install`, and `docker-compose run rails yarn install`, as needed.
 
 - Similarly, you may want to run some migrations.
-  - Just `docker-compose run web rails db:migrate` or `docker-compose run web rails db:drop db:create db:migrate db:seed`, etc.
+  - Just `docker-compose run rails rails db:migrate` or `docker-compose run rails rails db:drop db:create db:migrate db:seed`, etc.
 
 - You can also already remove the clone of this repository.
   - `rm -Rf ../setup-docker-rails`
@@ -159,7 +159,7 @@ For debugging, and studying.
     packs:
   ```
 
-- Run `docker-compose run web rails new . --database=postgresql --webpacker --webpack=react --skip-git --force`
+- Run `docker-compose run rails rails new . --database=postgresql --webpacker --webpack=react --skip-git --force`
   - This shall build the container image using our `Dockerfile`, and run `rails new` inside it.
     But as we setted up a volume inside our `docker-compose.yml`, we shall get the Rails scaffold put into our local folder.
 
@@ -183,7 +183,7 @@ For debugging, and studying.
   ...
   ```
 
-- Run the migrations, to create the database `docker-compose run web rails db:prepare`.
+- Run the migrations, to create the database `docker-compose run rails rails db:prepare`.
   We have a volume configured for the postgres container, so the data will be stored between executions.
 
 - Run the application again, `docker-compose up`. **Yay! You’re on Rails!**
@@ -205,6 +205,6 @@ For debugging, and studying.
   ...
   ```
 
-- Later on, you can execute other things using the dependencies inside the container by running `docker-compose run web ...`
+- Later on, you can execute other things using the dependencies inside the container by running `docker-compose run rails ...`
 
-  - Eg. `docker-compose run web yarn add bootstrap jquery popper.js`
+  - Eg. `docker-compose run rails yarn add bootstrap jquery popper.js`
