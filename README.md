@@ -1,6 +1,4 @@
 # Setup a new Rails project using Docker and Compose
-Based on https://docs.docker.com/compose/rails/
-And https://github.com/pacuna/rails5-docker-alpine
 
 ## Goals:
 - Be able to setup and run a new Rails project, without having the Ruby and Rails versions installed locally.
@@ -51,6 +49,9 @@ And https://github.com/pacuna/rails5-docker-alpine
 
 - You can also already remove the clone of this repository.
   - `rm -Rf ../setup-docker-rails`
+
+- To be able to interact with `binding.pry`, attach a interactive session to the running Rails server.
+  - `bin/pry` does just that.
 
 ## Details:
 For debugging, and studying.
@@ -141,6 +142,8 @@ For debugging, and studying.
       depends_on:
         - postgres
         - webpack
+      tty: true
+      stdin_open: true
     webpack:
       build: .
       command: bash -c "yarn install ; bin/webpack-dev-server"
@@ -208,3 +211,9 @@ For debugging, and studying.
 - Later on, you can execute other things using the dependencies inside the container by running `docker-compose run rails ...`
 
   - Eg. `docker-compose run rails yarn add bootstrap jquery popper.js`
+
+# References:
+ - https://docs.docker.com/compose/rails/
+ - https://github.com/pacuna/rails5-docker-alpine
+ - https://gist.github.com/briankung/ebfb567d149209d2d308576a6a34e5d8
+ - https://stackoverflow.com/a/54033752/4949153

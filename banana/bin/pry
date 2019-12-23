@@ -1,0 +1,2 @@
+#!/bin/bash
+docker attach $(docker-compose ps -q rails)

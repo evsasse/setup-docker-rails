@@ -20,6 +20,8 @@ services:
     depends_on:
       - postgres
       - webpack
+    tty: true
+    stdin_open: true
   webpack:
     build: .
     command: bash -c "test -f bin/webpack-dev-server && yarn install && bin/webpack-dev-server"
